@@ -4,8 +4,8 @@ Análise SQL de **150.000 transações** para mapear fatores de risco de fraude,
 
 > **Insight central:** revisar apenas os **30% de maior score** captura **70% de toda a fraude** — reduz a carga operacional em dois terços sem perder cobertura.
 
-📄 Relatório completo (com gráficos e análise seção a seção): [`relatorios/relatorio_fraude.md`](relatorios/relatorio_fraude.md) · versão PDF: [`relatorios/relatorio_fraude.pdf`](relatorios/relatorio_fraude.pdf)
-🎯 Apresentação executiva: [`apresentacao/insights_fraude.pptx`](apresentacao/insights_fraude.pptx)
+📄 Relatório completo (com gráficos e análise seção a seção): [`RELATORIOS/relatorio_fraude.md`](RELATORIOS/relatorio_fraude.md) · versão PDF: [`RELATORIOS/relatorio_fraude.pdf`](RELATORIOS/relatorio_fraude.pdf)
+🎯 Apresentação executiva: [`APRESENTACAO/insights_fraude.pptx`](APRESENTACAO/insights_fraude.pptx)
 
 ---
 
@@ -51,12 +51,12 @@ A *taxa* de fraude sobe de forma monotônica com o valor, mas a *perda em reais*
 ## Prints do relatório
 
 <p align="center">
-  <img src="assets/faixa.png" alt="Taxa de fraude por faixa de valor" width="48%" />
-  <img src="assets/decis.png" alt="Taxa de fraude por decil de score" width="48%" />
+  <img src="ASSETS/faixa.png" alt="Taxa de fraude por faixa de valor" width="48%" />
+  <img src="ASSETS/decis.png" alt="Taxa de fraude por decil de score" width="48%" />
 </p>
 <p align="center">
-  <img src="assets/captura.png" alt="Captura acumulada de fraude por percentual da fila revisada" width="48%" />
-  <img src="assets/pais.png" alt="Taxa de fraude por país" width="48%" />
+  <img src="ASSETS/captura.png" alt="Captura acumulada de fraude por percentual da fila revisada" width="48%" />
+  <img src="ASSETS/pais.png" alt="Taxa de fraude por país" width="48%" />
 </p>
 
 ---
@@ -64,19 +64,19 @@ A *taxa* de fraude sobe de forma monotônica com o valor, mas a *perda em reais*
 ## Estrutura do repositório
 
 ```
-projeto-sql-fraude/
+Projeto_fraude/
 ├── README.md                          ← você está aqui
-├── orientacao_e_gabarito/
+├── ORIENTACAO_E_GABARITO/
 │   └── orientacoes_do_case.docx       ← enunciado original do case
-├── sql/
+├── SQL/
 │   ├── tabela_unificada_modelo.sql    ← ETL: constrói a abt_fraude
 │   └── queries_analiticas.sql         ← queries de todas as seções do relatório
-├── relatorios/
+├── RELATORIOS/
 │   ├── relatorio_fraude.md            ← relatório final (Markdown, versionado)
 │   └── relatorio_fraude.pdf           ← mesmo relatório em PDF
-├── apresentacao/
+├── APRESENTACAO/
 │   └── insights_fraude.pptx           ← deck executivo com os achados
-└── assets/                             ← gráficos usados no relatório
+└── ASSETS/                            ← gráficos usados no relatório
     ├── ticket.png · faixa.png · decis.png · captura.png · pais.png
 ```
 
@@ -117,7 +117,7 @@ Duas dimensões auxiliares (`dim_paises`, `dim_categorias`) enriquecem a anális
 
 ## Stack
 
-- **SQL / BigQuery (GoogleSQL)** — construção da ABT e todas as análises. `sql/queries_analiticas.sql` traz notas de portabilidade para PostgreSQL, MySQL, SQLite e SQL Server.
+- **SQL / BigQuery (GoogleSQL)** — construção da ABT e todas as análises. `SQL/SQL_queries_analiticas.SQL` traz notas de portabilidade para PostgreSQL, MySQL, SQLite e SQL Server.
 - **Markdown + PDF** — relatório versionado ao lado do código, garantindo reprodutibilidade.
 - **PowerPoint** — apresentação executiva dos insights.
 
@@ -125,26 +125,26 @@ Duas dimensões auxiliares (`dim_paises`, `dim_categorias`) enriquecem a anális
 
 ## Como reproduzir
 
-**Pré-requisitos:** acesso ao BigQuery (Console ou CLI `bq`) e as tabelas fonte listadas em [Dados](#dados) carregadas em um dataset do seu projeto. Ajuste `unipds-503513.projeto_fraude` nos scripts para o seu `projeto.dataset`.
+**Pré-requisitos:** acesso ao BigQuery (Console ou CLI `bq`) e as tabelas fonte listadas em [Dados](#dados) carregadas em um dataset do seu projeto. Ajuste `poscientistadados1.fraude` nos scripts para o seu `projeto.dataset`.
 
-**Via BigQuery Console:** abra cada arquivo em [`sql/`](sql/) e cole no editor de queries, na ordem abaixo.
+**Via BigQuery Console:** abra cada arquivo em [`SQL/`](SQL/) e cole no editor de queries, na ordem abaixo.
 
 **Via CLI (`bq`):**
 
 ```bash
 # 1. Construir a tabela de modelagem
-bq query --use_legacy_sql=false < sql/tabela_unificada_modelo.sql
+bq query --use_legacy_sql=false < SQL/SQL_tabela_unificada_modelo.SQL
 
 # 2. Rodar as queries analíticas — cada seção do relatório aponta para a sua query
-bq query --use_legacy_sql=false < sql/queries_analiticas.sql
+bq query --use_legacy_sql=false < SQL/SQL_queries_analiticas.SQL
 ```
 
-Cada query em `queries_analiticas.sql` está comentada com a seção do relatório que ela alimenta e com o resultado esperado (contagens, taxas, tickets), servindo como teste de aceite implícito.
+Cada query em `SQL_queries_analiticas.SQL` está comentada com a seção do relatório que ela alimenta e com o resultado esperado (contagens, taxas, tickets), servindo como teste de aceite implícito.
 
 ---
 
 ## Leia mais
 
-- **Relatório completo** → [`relatorios/relatorio_fraude.md`](relatorios/relatorio_fraude.md)
-- **Enunciado do case** → [`orientacao_e_gabarito/orientacoes_do_case.docx`](orientacao_e_gabarito/orientacoes_do_case.docx)
-- **Apresentação executiva** → [`apresentacao/insights_fraude.pptx`](apresentacao/insights_fraude.pptx)
+- **Relatório completo** → [`RELATORIOS/relatorio_fraude.md`](relatorios/relatorio_fraude.md)
+- **Enunciado do case** → [`ORIENTACAO_E_GABARITO/orientacoes_do_case.docx`](orientacao_e_gabarito/orientacoes_do_case.docx)
+- **Apresentação executiva** → [`APRESENTACAO/insights_fraude.pptx`](apresentacao/insights_fraude.pptx)
