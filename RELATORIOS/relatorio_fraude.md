@@ -27,7 +27,7 @@ A fraude nesta base é rara (5,0%), mas não é aleatória: concentra-se de form
 
 O objetivo é entender onde a fraude se concentra e avaliar se o modelo de score já existente é útil na operação. A análise parte da tabela de modelagem `abt_fraude` (150.000 transações, uma linha por transação), construída a partir da junção das tabelas de compra e dos três blocos de score, com remoção de 200 registros de teste.
 
-Como a fraude é uma classe rara (5,0%), a análise se apoia em **taxa de fraude** (a média da coluna `fraude`), e não em contagem absoluta — que favoreceria apenas os segmentos maiores. Ao comparar grupos, aplica-se um piso mínimo de volume para evitar conclusões sobre amostras pequenas demais. A exceção deliberada é a análise por faixa de valor, em que taxa de fraude e **valor absoluto em reais** são reportados lado a lado: sem isso, não se enxerga que "onde está o risco" e "onde está o dinheiro" não coincidem. Todas as queries estão no arquivo [`SQL/SQL_queries_analiticas.sql`](../SQL/SQL_queries_analiticas.SQL) que acompanha este relatório.
+Como a fraude é uma classe rara (5,0%), a análise se apoia em **taxa de fraude** (a média da coluna `fraude`), e não em contagem absoluta — que favoreceria apenas os segmentos maiores. Ao comparar grupos, aplica-se um piso mínimo de volume para evitar conclusões sobre amostras pequenas demais. A exceção deliberada é a análise por faixa de valor, em que taxa de fraude e **valor absoluto em reais** são reportados lado a lado: sem isso, não se enxerga que "onde está o risco" e "onde está o dinheiro" não coincidem. Todas as queries estão no arquivo [`SQL/SQL_queries_analiticas.SQL`](../SQL/SQL_queries_analiticas.SQL) que acompanha este relatório.
 
 > **Nota de qualidade de dados.** A segmentação por faixa de valor usa `CASE` com `ELSE` para a faixa mais alta; como `NULL < 500` não é verdadeiro em SQL, eventuais `valor_compra` nulos caem na faixa "acima de R$ 500". Recomenda-se checar `COUNT(*) WHERE valor_compra IS NULL` e isolar nulos numa faixa própria antes de reportar essa fatia como uma tese fechada.
 
@@ -41,12 +41,12 @@ Como a fraude é uma classe rara (5,0%), a análise se apoia em **taxa de fraude
 
 Das 150 mil transações, 7.500 são fraudes — os 5,0% que servem de linha de base para todo o resto. O valor financeiro diretamente exposto em transações fraudulentas soma R$ 547 mil. Vale notar que o ticket médio de uma fraude (R$ 73) é cerca de 1,7× o ticket médio geral (R$ 44): a fraude tende a buscar transações de maior valor — o que já antecipa o primeiro achado.
 
-![Ticket médio: fraude vs. geral](../assets/ticket.png)
+![Ticket médio: fraude vs. geral](../ASSETS/ticket.png)
 
 ---
 
 ## 4. O valor da transação: sinal forte, leitura nuançada
-![Taxa de fraude por faixa de valor](../assets/faixa.png)
+![Taxa de fraude por faixa de valor](../ASSETS/faixa.png)
 
 
 *Taxa de fraude por faixa de valor da compra.*
@@ -79,7 +79,7 @@ Uma limitação honesta: taxa de fraude não é o mesmo que o limiar de um model
 
 ## 5. Desempenho do modelo atual
 
-![Taxa de fraude por decil do score](../assets/decis.png)
+![Taxa de fraude por decil do score](../ASSETS/decis.png)
 
 *Taxa de fraude por decil do score do modelo (1 = menor score, 10 = maior).*
 
@@ -91,7 +91,7 @@ Consequência prática: o score deve ser usado como **fila de prioridade** (quem
 
 ## 6. Priorização: 70% da fraude em 30% da fila
 
-![Captura acumulada de fraude por percentual da fila revisada](../assets/captura.png)
+![Captura acumulada de fraude por percentual da fila revisada](../ASSETS/captura.png)
 
 *Fração da fraude total capturada ao revisar os X% de maior score.*
 
@@ -101,7 +101,7 @@ Apesar da irregularidade no meio, o topo do score é tão denso em fraude que pr
 
 ## 7. Concentração geográfica
 
-![Taxa de fraude por país](../assets/pais.png)
+![Taxa de fraude por país](../ASSETS/pais.png)
 
 *Taxa de fraude por país, apenas países com ao menos 1.000 transações.*
 
@@ -139,4 +139,4 @@ A base cobre dois meses (março e abril de 2020), com taxas praticamente idênti
 | País (≥1.000) | BR 5,52% · AR 3,69% · US 3,08% · UY 0,98% |
 | Tempo | 2020-03: 5,04% · 2020-04: 4,96% (sem sazonalidade) |
 
-As queries que produzem cada número acima estão em [`SQL/SQL_queries_analiticas.sql`](../SQL/SQL_queries_analiticas.SQL). Métrica de taxa = 100 × média de `fraude`.
+As queries que produzem cada número acima estão em [`SQL/SQL_queries_analiticas.SQL`](../SQL/SQL_queries_analiticas.SQL). Métrica de taxa = 100 × média de `fraude`.
